@@ -18,7 +18,6 @@ from hoops_sim.utils.constants import (
     BASKET_X,
     BASKET_Y,
     COURT_LENGTH,
-    COURT_WIDTH,
     HALF_COURT_LENGTH,
 )
 

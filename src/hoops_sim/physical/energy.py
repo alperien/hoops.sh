@@ -3,14 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict
 
 from hoops_sim.utils.constants import (
     BASE_ENERGY,
-    ENERGY_DRAIN_JOG,
-    ENERGY_DRAIN_SPRINT,
-    ENERGY_DRAIN_STAND,
-    ENERGY_DRAIN_WALK,
     ENERGY_RECOVERY_BENCH,
     ENERGY_RECOVERY_HALFTIME,
     ENERGY_RECOVERY_TIMEOUT,
@@ -20,7 +15,6 @@ from hoops_sim.utils.constants import (
     FATIGUE_THRESHOLD_LIGHT,
     FATIGUE_THRESHOLD_MODERATE,
 )
-from hoops_sim.utils.math import clamp
 
 
 @dataclass
@@ -67,7 +61,7 @@ class EnergyManager:
     """Manages energy for all players in a game."""
 
     def __init__(self) -> None:
-        self.states: Dict[int, EnergyState] = {}
+        self.states: dict[int, EnergyState] = {}
 
     def init_player(self, player_id: int, stamina: int) -> None:
         """Initialize energy for a player based on stamina attribute."""
@@ -77,7 +71,9 @@ class EnergyManager:
     def get(self, player_id: int) -> EnergyState:
         return self.states.get(player_id, EnergyState())
 
-    def drain_action(self, player_id: int, action_cost: float, surface_modifier: float = 1.0) -> None:
+    def drain_action(
+        self, player_id: int, action_cost: float, surface_modifier: float = 1.0,
+    ) -> None:
         """Drain energy for an action."""
         state = self.states.get(player_id)
         if state:

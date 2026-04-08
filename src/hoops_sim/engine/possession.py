@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass, field
-from typing import Optional
 
 
 class PossessionState(enum.Enum):
@@ -48,11 +47,11 @@ class PossessionTracker:
     state: PossessionState = PossessionState.PRE_INBOUND
     offensive_team_id: int = 0
     defensive_team_id: int = 0
-    ball_handler_id: Optional[int] = None
+    ball_handler_id: int | None = None
     possession_number: int = 0
     ticks_in_state: int = 0
     ticks_total: int = 0
-    result: Optional[PossessionResult] = None
+    result: PossessionResult | None = None
     events: list = field(default_factory=list)
 
     def transition_to(self, new_state: PossessionState) -> None:

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List
 
 from hoops_sim.physics.vec import Vec2
 
@@ -22,7 +21,7 @@ def analyze_driving_lane(
     driver_pos: Vec2,
     basket_pos: Vec2,
     primary_defender_pos: Vec2,
-    help_defender_positions: List[Vec2],
+    help_defender_positions: list[Vec2],
     lane_width: float = 4.0,
 ) -> DrivingLaneResult:
     """Analyze whether a driving lane to the basket is open.
@@ -45,7 +44,9 @@ def analyze_driving_lane(
     drive_direction = basket_pos - driver_pos
     drive_distance = drive_direction.magnitude()
     if drive_distance < 1.0:
-        return DrivingLaneResult(open=True, quality=1.0, help_defenders_in_path=0, closest_help_distance=99.0)
+        return DrivingLaneResult(
+            open=True, quality=1.0, help_defenders_in_path=0, closest_help_distance=99.0,
+        )
 
     # Check primary defender position
     # Is the defender between the driver and the basket?

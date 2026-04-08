@@ -5,7 +5,6 @@ from __future__ import annotations
 import pytest
 
 from hoops_sim.physics.rim_interaction import (
-    CaromResult,
     ShotOutcome,
     calculate_carom_direction,
     calculate_entry_offset,

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from hoops_sim.models.relationships import Relationship, RelationshipMatrix
 
 

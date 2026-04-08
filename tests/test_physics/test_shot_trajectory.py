@@ -11,7 +11,6 @@ from hoops_sim.physics.shot_trajectory import (
 )
 from hoops_sim.physics.vec import Vec2
 from hoops_sim.utils.constants import (
-    BASKET_HEIGHT,
     OPTIMAL_RELEASE_ANGLE_AT_RIM,
     OPTIMAL_RELEASE_ANGLE_THREE,
 )

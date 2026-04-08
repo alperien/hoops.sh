@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from hoops_sim.shot.free_throw import simulate_free_throw
 from hoops_sim.utils.rng import SeededRNG
 

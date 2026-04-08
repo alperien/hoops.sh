@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass
-from typing import Optional
 
 from hoops_sim.utils.constants import (
     ALTITUDE_BALL_BOUNCE_FACTOR_PER_1000FT,
@@ -48,7 +47,7 @@ class CourtSurface:
     temperature_f: int = 68
     humidity_pct: int = 45
 
-    def get_traction(self, shoes: Optional[ShoeGrip] = None) -> float:
+    def get_traction(self, shoes: ShoeGrip | None = None) -> float:
         """Calculate effective traction for a player.
 
         Traction affects:
@@ -104,7 +103,7 @@ class CourtSurface:
         altitude_thousands = self.altitude_ft / 1000.0
         return 1.0 + altitude_thousands * ALTITUDE_BALL_BOUNCE_FACTOR_PER_1000FT
 
-    def get_slip_probability(self, shoes: Optional[ShoeGrip] = None) -> float:
+    def get_slip_probability(self, shoes: ShoeGrip | None = None) -> float:
         """Calculate the probability of a player slipping per high-intensity action.
 
         Low traction increases slip probability. Slips can lead to turnovers

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass
-from typing import Optional
 
 from hoops_sim.utils.rng import SeededRNG
 
@@ -115,7 +114,7 @@ def calculate_injury_risk(
     contact_severity: float,
     medical_prevention_mod: float,
     rng: SeededRNG,
-) -> Optional[Injury]:
+) -> Injury | None:
     """Calculate whether an injury occurs on this action.
 
     Args:
@@ -154,7 +153,10 @@ def calculate_injury_risk(
     contact_mod = 1.0 + contact_severity * 3.0 if is_contact else 1.0
 
     # Medical staff prevention
-    total_risk = base_risk * durability_mod * age_mod * fatigue_mod * contact_mod * medical_prevention_mod
+    total_risk = (
+        base_risk * durability_mod * age_mod * fatigue_mod
+        * contact_mod * medical_prevention_mod
+    )
 
     if rng.random() > total_risk:
         return None

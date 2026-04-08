@@ -2,12 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List
-
 from hoops_sim.physics.vec import Vec2
 
 
-def average_spacing(positions: List[Vec2]) -> float:
+def average_spacing(positions: list[Vec2]) -> float:
     """Calculate average distance between all pairs of players.
 
     Good spacing is typically 15-20 feet between players.
@@ -29,7 +27,7 @@ def average_spacing(positions: List[Vec2]) -> float:
     return total / count if count > 0 else 0.0
 
 
-def spacing_quality(positions: List[Vec2], basket_pos: Vec2) -> float:
+def spacing_quality(positions: list[Vec2], basket_pos: Vec2) -> float:
     """Evaluate the quality of offensive spacing.
 
     Good spacing means:

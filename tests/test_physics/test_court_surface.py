@@ -5,10 +5,10 @@ from __future__ import annotations
 import pytest
 
 from hoops_sim.physics.court_surface import (
-    CourtSurface,
-    DENVER_SURFACE,
     DEFAULT_SURFACE,
+    DENVER_SURFACE,
     MIAMI_SURFACE,
+    CourtSurface,
     ShoeGrip,
     SurfaceCondition,
 )

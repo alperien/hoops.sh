@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from hoops_sim.physics.kinematics import MovementType, PlayerKinematics
 from hoops_sim.physics.vec import Vec2
 

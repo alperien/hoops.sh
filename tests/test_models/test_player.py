@@ -2,11 +2,7 @@
 
 from __future__ import annotations
 
-import pytest
-
-from hoops_sim.models.attributes import PlayerAttributes, ShootingAttributes, AthleticAttributes
-from hoops_sim.models.badges import BadgeTier, PlayerBadges
-from hoops_sim.models.body import PlayerBody
+from hoops_sim.models.attributes import PlayerAttributes, ShootingAttributes
 from hoops_sim.models.player import Player, Position
 
 

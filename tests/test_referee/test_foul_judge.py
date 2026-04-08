@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import pytest
-
-from hoops_sim.physics.contact import ContactEvent, ContactSeverity, ContactType
+from hoops_sim.physics.contact import ContactEvent, ContactType
 from hoops_sim.physics.vec import Vec2
 from hoops_sim.referee.foul_judge import RefereeCrew
 from hoops_sim.utils.rng import SeededRNG

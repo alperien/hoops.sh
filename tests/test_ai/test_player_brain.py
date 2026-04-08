@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import pytest
-
-from hoops_sim.ai.player_brain import ActionOption, evaluate_ball_handler_options
+from hoops_sim.ai.player_brain import evaluate_ball_handler_options
 from hoops_sim.utils.rng import SeededRNG
 
 

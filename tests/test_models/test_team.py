@@ -2,15 +2,13 @@
 
 from __future__ import annotations
 
-import pytest
-
 from hoops_sim.models.arena import Arena
 from hoops_sim.models.coaching_staff import CoachingStaff, CoachPersonality
 from hoops_sim.models.contract import Contract, ContractOption, ContractType
 from hoops_sim.models.front_office import FrontOffice, TeamStrategy
 from hoops_sim.models.league import League, SalaryCapInfo
 from hoops_sim.models.owner import Owner
-from hoops_sim.models.player import Player, Position
+from hoops_sim.models.player import Player
 from hoops_sim.models.team import Team
 
 

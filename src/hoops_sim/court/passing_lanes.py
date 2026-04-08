@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import math
 from dataclasses import dataclass
-from typing import List
 
 from hoops_sim.physics.vec import Vec2
 
@@ -44,7 +42,7 @@ def point_to_segment_distance(point: Vec2, seg_start: Vec2, seg_end: Vec2) -> fl
 def analyze_passing_lane(
     passer_pos: Vec2,
     receiver_pos: Vec2,
-    defender_positions: List[Vec2],
+    defender_positions: list[Vec2],
     pass_lane_width: float = 2.5,
 ) -> PassingLaneResult:
     """Analyze whether a passing lane is open.
@@ -62,7 +60,9 @@ def analyze_passing_lane(
         PassingLaneResult with lane quality and interception risk.
     """
     if not defender_positions:
-        return PassingLaneResult(open=True, quality=1.0, closest_defender_distance=99.0, interception_risk=0.0)
+        return PassingLaneResult(
+            open=True, quality=1.0, closest_defender_distance=99.0, interception_risk=0.0,
+        )
 
     pass_distance = passer_pos.distance_to(receiver_pos)
     closest = 99.0

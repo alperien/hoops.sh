@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import enum
-import math
 from dataclasses import dataclass
 
 from hoops_sim.physics.vec import Vec2

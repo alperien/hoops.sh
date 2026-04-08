@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass, field
-from typing import Dict
 
 from hoops_sim.court.zones import Zone
 
@@ -35,7 +34,7 @@ class ShootingProfile:
         preferred_zones: Zones where the player is most comfortable.
     """
 
-    zone_modifiers: Dict[Zone, int] = field(default_factory=dict)
+    zone_modifiers: dict[Zone, int] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         # Initialize all zones to neutral if not provided
@@ -83,9 +82,9 @@ class ShootingProfile:
         """Get all zones where the player is 'cold'."""
         return [z for z in Zone if self.get_rating(z) == ZoneRating.COLD]
 
-    def zone_count_by_rating(self) -> Dict[ZoneRating, int]:
+    def zone_count_by_rating(self) -> dict[ZoneRating, int]:
         """Count zones by rating category."""
-        counts: Dict[ZoneRating, int] = {r: 0 for r in ZoneRating}
+        counts: dict[ZoneRating, int] = {r: 0 for r in ZoneRating}
         for zone in Zone:
             counts[self.get_rating(zone)] += 1
         return counts

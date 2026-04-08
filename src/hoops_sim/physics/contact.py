@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass
-from typing import Optional
 
 from hoops_sim.physics.vec import Vec2
 from hoops_sim.utils.constants import (
@@ -119,7 +118,7 @@ def detect_contact(
     def_vel: Vec2,
     def_weight: float,
     contact_radius: float = 2.5,
-) -> Optional[ContactEvent]:
+) -> ContactEvent | None:
     """Detect if two players are in contact.
 
     Players are in contact when their positions overlap within the contact

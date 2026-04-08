@@ -8,11 +8,10 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass, field
-from typing import Optional
 
 from hoops_sim.models.attributes import PlayerAttributes
 from hoops_sim.models.badges import PlayerBadges
-from hoops_sim.models.body import Handedness, PlayerBody
+from hoops_sim.models.body import PlayerBody
 from hoops_sim.models.lifestyle import PlayerLifestyle
 from hoops_sim.models.personality import PlayerPersonality
 from hoops_sim.models.shooting_profile import ShootingProfile
@@ -53,7 +52,7 @@ class Player:
     last_name: str = ""
     age: int = 25
     position: Position = Position.SF
-    secondary_position: Optional[Position] = None
+    secondary_position: Position | None = None
     jersey_number: int = 0
     years_pro: int = 3
 

@@ -5,30 +5,25 @@ from __future__ import annotations
 import enum
 import math
 from dataclasses import dataclass
-from typing import Optional
 
-from hoops_sim.physics.shot_trajectory import ShotTrajectory
 from hoops_sim.physics.vec import Vec2, Vec3
 from hoops_sim.utils.constants import (
     BACKSPIN_COR_BONUS,
     BASKET_HEIGHT,
     BASKET_X,
     BASKET_Y,
-    BALL_RADIUS,
     CAROM_BACKSPIN_DAMPEN_FACTOR,
     CAROM_DISTANCE_BASE,
     CAROM_NOISE_DEGREES,
     CAROM_NOISE_DISTANCE,
     CAROM_SPIN_LATERAL_FACTOR,
     RIM_COEFFICIENT_OF_RESTITUTION,
+    RIM_GRAZE_THRESHOLD,
     RIM_HARD_HIT_THRESHOLD,
     RIM_MISS_THRESHOLD,
-    RIM_GRAZE_THRESHOLD,
-    RIM_RADIUS,
     SWISH_THRESHOLD,
 )
 from hoops_sim.utils.rng import SeededRNG
-
 
 BASKET_CENTER = Vec3(BASKET_X, BASKET_Y, BASKET_HEIGHT)
 BASKET_CENTER_2D = Vec2(BASKET_X, BASKET_Y)
@@ -58,7 +53,7 @@ class RimInteractionResult:
 
     outcome: ShotOutcome
     made: bool
-    carom: Optional[CaromResult] = None  # Only for misses
+    carom: CaromResult | None = None  # Only for misses
 
 
 def calculate_entry_offset(

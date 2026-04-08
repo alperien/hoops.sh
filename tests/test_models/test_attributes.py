@@ -9,8 +9,8 @@ from hoops_sim.models.attributes import (
     DefensiveAttributes,
     FinishingAttributes,
     MentalAttributes,
-    PlaymakingAttributes,
     PlayerAttributes,
+    PlaymakingAttributes,
     ReboundingAttributes,
     ShootingAttributes,
 )
