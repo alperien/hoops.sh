@@ -59,9 +59,18 @@ class MainMenuScreen(Screen):
         self.app.push_screen(SeasonSetupScreen())
 
     def action_quick_game(self) -> None:
+        from hoops_sim.data.generator import generate_league
         from hoops_sim.tui.screens.live_game import LiveGameScreen
+        from hoops_sim.utils.rng import SeededRNG
 
-        self.app.push_screen(LiveGameScreen())
+        # Generate two random teams for a quick game
+        rng = SeededRNG()
+        league = generate_league(num_teams=2, rng=rng)
+        home = league.teams[0]
+        away = league.teams[1]
+        self.app.push_screen(
+            LiveGameScreen(home_team=home, away_team=away, seed=rng.randint(1, 999999))
+        )
 
     def action_settings(self) -> None:
         from hoops_sim.tui.screens.settings import SettingsScreen

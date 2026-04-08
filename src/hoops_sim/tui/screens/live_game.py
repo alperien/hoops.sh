@@ -88,12 +88,12 @@ class LiveGameScreen(Screen):
             team_name=away_team.full_name if away_team else "Away",
         )
 
-        # Initialize player stats
+        # Initialize player stats for all roster players
         if home_team:
-            for p in home_team.roster[:10]:
+            for p in home_team.roster:
                 self._home_stats.add_player(p.id, p.full_name)
         if away_team:
-            for p in away_team.roster[:10]:
+            for p in away_team.roster:
                 self._away_stats.add_player(p.id, p.full_name)
 
     def compose(self) -> ComposeResult:
@@ -150,8 +150,16 @@ class LiveGameScreen(Screen):
 
     def on_mount(self) -> None:
         """Start the simulation loop."""
+        from hoops_sim.engine.possession import PossessionState
+
         self._game_state.phase = GamePhase.QUARTER
         self._game_state.clock.start()
+        # Transition possession to LIVE so the tick engine advances the clock
+        self._game_state.possession.transition_to(PossessionState.LIVE)
+        if self._home_team:
+            self._game_state.possession.offensive_team_id = self._home_team.id
+        if self._away_team:
+            self._game_state.possession.defensive_team_id = self._away_team.id
 
         pbp = self.query_one("#game-pbp", PlayByPlay)
         home_name = self._home_team.full_name if self._home_team else "Home"

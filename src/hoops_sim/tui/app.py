@@ -17,7 +17,7 @@ class HoopsApp(App):
     CSS_PATH = "styles.tcss"
 
     BINDINGS = [
-        Binding("q", "quit", "Quit", show=True, priority=True),
+        Binding("q", "quit", "Quit", show=True),
         Binding("question_mark", "help", "Help", show=True),
     ]
 
