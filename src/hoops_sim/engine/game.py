@@ -4,12 +4,10 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
 
 from hoops_sim.engine.clock import GameClock
-from hoops_sim.engine.possession import PossessionResult, PossessionState, PossessionTracker
+from hoops_sim.engine.possession import PossessionTracker
 from hoops_sim.models.team import Team
-from hoops_sim.utils.constants import TICK_DURATION
 
 
 class GamePhase(enum.Enum):
@@ -29,8 +27,8 @@ class GameScore:
 
     home: int = 0
     away: int = 0
-    quarter_scores_home: List[int] = field(default_factory=lambda: [0, 0, 0, 0])
-    quarter_scores_away: List[int] = field(default_factory=lambda: [0, 0, 0, 0])
+    quarter_scores_home: list[int] = field(default_factory=lambda: [0, 0, 0, 0])
+    quarter_scores_away: list[int] = field(default_factory=lambda: [0, 0, 0, 0])
 
     @property
     def diff(self) -> int:
@@ -65,8 +63,8 @@ class GameState:
     """
 
     # Teams
-    home_team: Optional[Team] = None
-    away_team: Optional[Team] = None
+    home_team: Team | None = None
+    away_team: Team | None = None
 
     # Game flow
     phase: GamePhase = GamePhase.PRE_GAME
@@ -118,7 +116,7 @@ class GameState:
     def is_tied(self) -> bool:
         return self.score.home == self.score.away
 
-    def leading_team_id(self) -> Optional[int]:
+    def leading_team_id(self) -> int | None:
         """Get the ID of the leading team, or None if tied."""
         if self.score.home > self.score.away:
             return self.home_team.id if self.home_team else None

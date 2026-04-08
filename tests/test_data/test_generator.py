@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from hoops_sim.data.generator import (
     ARCHETYPES,
     generate_player,

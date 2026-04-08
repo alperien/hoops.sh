@@ -12,10 +12,8 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass, field
-from typing import List, Optional
 
-from hoops_sim.engine.clock import GameClock
-from hoops_sim.engine.game import GamePhase, GameState
+from hoops_sim.engine.game import GameState
 from hoops_sim.engine.possession import PossessionState
 from hoops_sim.utils.constants import TICK_DURATION
 
@@ -53,7 +51,7 @@ class TickResult:
 
     tick_number: int
     dt: float
-    events: List[TickEvent] = field(default_factory=list)
+    events: list[TickEvent] = field(default_factory=list)
     clock_running: bool = True
 
 
@@ -75,7 +73,7 @@ class TickEngine:
             TickResult with any events that occurred.
         """
         self.tick_number += 1
-        events: List[TickEvent] = []
+        events: list[TickEvent] = []
         gs = self.game_state
 
         # Only advance clock when the ball is live
@@ -112,7 +110,7 @@ class TickEngine:
             clock_running=gs.clock.is_running,
         )
 
-    def run_ticks(self, count: int) -> List[TickResult]:
+    def run_ticks(self, count: int) -> list[TickResult]:
         """Run multiple ticks.
 
         Args:

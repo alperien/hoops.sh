@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
 
 
 class BadgeTier(enum.IntEnum):
@@ -41,7 +40,7 @@ class BadgeDefinition:
 
 
 # All available badges
-BADGE_DEFINITIONS: Dict[str, BadgeDefinition] = {
+BADGE_DEFINITIONS: dict[str, BadgeDefinition] = {
     # Shooting badges
     "catch_and_shoot": BadgeDefinition(
         "Catch and Shoot", BadgeCategory.SHOOTING,
@@ -199,13 +198,13 @@ class PlayerBadges:
     Maps badge keys to their tier level.
     """
 
-    badges: Dict[str, BadgeTier] = field(default_factory=dict)
+    badges: dict[str, BadgeTier] = field(default_factory=dict)
 
     def has_badge(self, badge_key: str) -> bool:
         """Check if the player has a specific badge."""
         return badge_key in self.badges
 
-    def get_tier(self, badge_key: str) -> Optional[BadgeTier]:
+    def get_tier(self, badge_key: str) -> BadgeTier | None:
         """Get the tier of a badge, or None if not owned."""
         return self.badges.get(badge_key)
 
@@ -241,7 +240,7 @@ class PlayerBadges:
         self.badges[badge_key] = BadgeTier(int(current) + 1)
         return True
 
-    def badges_in_category(self, category: BadgeCategory) -> List[str]:
+    def badges_in_category(self, category: BadgeCategory) -> list[str]:
         """Get all badge keys in a specific category that this player has."""
         return [
             key for key in self.badges

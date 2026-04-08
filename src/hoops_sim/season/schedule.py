@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
 
 from hoops_sim.utils.rng import SeededRNG
 
@@ -19,7 +18,7 @@ class ScheduledGame:
     played: bool = False
     home_score: int = 0
     away_score: int = 0
-    winner_id: Optional[int] = None
+    winner_id: int | None = None
 
     def record_result(self, home_score: int, away_score: int) -> None:
         self.played = True
@@ -32,16 +31,16 @@ class ScheduledGame:
 class SeasonSchedule:
     """Full season schedule."""
 
-    games: List[ScheduledGame] = field(default_factory=list)
+    games: list[ScheduledGame] = field(default_factory=list)
     total_days: int = 180  # ~6 months
 
-    def games_on_day(self, day: int) -> List[ScheduledGame]:
+    def games_on_day(self, day: int) -> list[ScheduledGame]:
         return [g for g in self.games if g.day == day]
 
-    def team_games(self, team_id: int) -> List[ScheduledGame]:
+    def team_games(self, team_id: int) -> list[ScheduledGame]:
         return [g for g in self.games if g.home_team_id == team_id or g.away_team_id == team_id]
 
-    def next_unplayed(self, team_id: int) -> Optional[ScheduledGame]:
+    def next_unplayed(self, team_id: int) -> ScheduledGame | None:
         for g in self.team_games(team_id):
             if not g.played:
                 return g
@@ -55,9 +54,9 @@ class SeasonSchedule:
 
 
 def generate_schedule(
-    team_ids: List[int],
+    team_ids: list[int],
     games_per_team: int = 82,
-    rng: Optional[SeededRNG] = None,
+    rng: SeededRNG | None = None,
 ) -> SeasonSchedule:
     """Generate a simplified season schedule.
 
@@ -79,11 +78,11 @@ def generate_schedule(
     if n < 2:
         return SeasonSchedule()
 
-    games: List[ScheduledGame] = []
+    games: list[ScheduledGame] = []
     game_id = 0
 
     # Generate round-robin matchups
-    matchups: List[Tuple[int, int]] = []
+    matchups: list[tuple[int, int]] = []
     for i in range(n):
         for j in range(i + 1, n):
             # Each pair plays multiple times
@@ -98,8 +97,8 @@ def generate_schedule(
     rng.shuffle(matchups)
 
     # Limit to the right number of games per team
-    team_game_counts: Dict[int, int] = {tid: 0 for tid in team_ids}
-    scheduled: List[Tuple[int, int]] = []
+    team_game_counts: dict[int, int] = {tid: 0 for tid in team_ids}
+    scheduled: list[tuple[int, int]] = []
 
     for home, away in matchups:
         if team_game_counts[home] < games_per_team and team_game_counts[away] < games_per_team:

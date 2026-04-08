@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
 
 from hoops_sim.models.arena import Arena
 from hoops_sim.models.coaching_staff import CoachingStaff
@@ -37,8 +36,8 @@ class Team:
     arena: Arena = field(default_factory=Arena)
 
     # Roster
-    roster: List[Player] = field(default_factory=list)
-    contracts: Dict[int, Contract] = field(default_factory=dict)  # player_id -> contract
+    roster: list[Player] = field(default_factory=list)
+    contracts: dict[int, Contract] = field(default_factory=dict)  # player_id -> contract
 
     # Chemistry
     relationships: RelationshipMatrix = field(default_factory=RelationshipMatrix)
@@ -50,18 +49,18 @@ class Team:
     def roster_size(self) -> int:
         return len(self.roster)
 
-    def get_player(self, player_id: int) -> Optional[Player]:
+    def get_player(self, player_id: int) -> Player | None:
         """Find a player on the roster by ID."""
         for p in self.roster:
             if p.id == player_id:
                 return p
         return None
 
-    def get_players_at_position(self, pos: Position) -> List[Player]:
+    def get_players_at_position(self, pos: Position) -> list[Player]:
         """Get all players who can play a given position."""
         return [p for p in self.roster if p.can_play_position(pos)]
 
-    def get_starters(self) -> List[Player]:
+    def get_starters(self) -> list[Player]:
         """Get the top 5 players by overall rating (simple default)."""
         sorted_roster = sorted(self.roster, key=lambda p: p.overall, reverse=True)
         return sorted_roster[:5]
@@ -82,19 +81,19 @@ class Team:
             return 0.0
         return sum(p.overall for p in self.roster) / len(self.roster)
 
-    def best_player(self) -> Optional[Player]:
+    def best_player(self) -> Player | None:
         """Get the highest-rated player on the roster."""
         if not self.roster:
             return None
         return max(self.roster, key=lambda p: p.overall)
 
-    def add_player(self, player: Player, contract: Optional[Contract] = None) -> None:
+    def add_player(self, player: Player, contract: Contract | None = None) -> None:
         """Add a player to the roster."""
         self.roster.append(player)
         if contract is not None:
             self.contracts[player.id] = contract
 
-    def remove_player(self, player_id: int) -> Optional[Player]:
+    def remove_player(self, player_id: int) -> Player | None:
         """Remove a player from the roster."""
         for i, p in enumerate(self.roster):
             if p.id == player_id:

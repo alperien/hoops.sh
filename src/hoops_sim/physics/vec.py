@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Union
 
 
 @dataclass
@@ -251,7 +250,7 @@ class Vec3:
         return Vec3(0.0, 0.0, 0.0)
 
 
-def distance_2d(a: Union[Vec2, Vec3], b: Union[Vec2, Vec3]) -> float:
+def distance_2d(a: Vec2 | Vec3, b: Vec2 | Vec3) -> float:
     """2D distance between two points (ignoring z if Vec3)."""
     ax = a.x
     ay = a.y

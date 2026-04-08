@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass, field, fields
-from typing import Dict, Iterator, Tuple
 
 
 def _attr(default: int = 50) -> int:
@@ -138,16 +138,16 @@ class PlayerAttributes:
             total += avg * weight
         return int(round(total))
 
-    def iter_all(self) -> Iterator[Tuple[str, str, int]]:
+    def iter_all(self) -> Iterator[tuple[str, str, int]]:
         """Iterate over all attributes as (category, name, value) tuples."""
         for cat_field in fields(self):
             category = getattr(self, cat_field.name)
             for attr_field in fields(category):
                 yield cat_field.name, attr_field.name, getattr(category, attr_field.name)
 
-    def to_dict(self) -> Dict[str, Dict[str, int]]:
+    def to_dict(self) -> dict[str, dict[str, int]]:
         """Convert all attributes to a nested dictionary."""
-        result: Dict[str, Dict[str, int]] = {}
+        result: dict[str, dict[str, int]] = {}
         for cat_field in fields(self):
             category = getattr(self, cat_field.name)
             result[cat_field.name] = {}
@@ -172,7 +172,11 @@ class PlayerAttributes:
 
 def _category_average(category: object) -> float:
     """Average all int fields in a dataclass."""
-    vals = [getattr(category, f.name) for f in fields(category) if isinstance(getattr(category, f.name), int)]
+    vals = [
+        getattr(category, f.name)
+        for f in fields(category)
+        if isinstance(getattr(category, f.name), int)
+    ]
     if not vals:
         return 0.0
     return sum(vals) / len(vals)

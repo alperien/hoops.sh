@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
 
 
 class ContractType(enum.Enum):
@@ -39,13 +38,13 @@ class Contract:
 
     total_years: int = 4
     current_year: int = 1  # Which year of the contract (1-indexed)
-    salaries: List[int] = field(default_factory=lambda: [5_000_000] * 4)
+    salaries: list[int] = field(default_factory=lambda: [5_000_000] * 4)
     contract_type: ContractType = ContractType.STANDARD
     option_type: ContractOption = ContractOption.NONE
     option_year: int = 0  # Which year has the option (0 = none)
     no_trade_clause: bool = False
     trade_kicker_pct: float = 0.0  # Percentage bonus if traded (0-15%)
-    incentives: Dict[str, int] = field(default_factory=dict)  # e.g., {"all_star": 500000}
+    incentives: dict[str, int] = field(default_factory=dict)  # e.g., {"all_star": 500000}
     bird_rights: bool = True
     restricted_fa: bool = False  # Is the player a restricted free agent after this?
 

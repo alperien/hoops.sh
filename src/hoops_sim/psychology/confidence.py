@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict
 
 from hoops_sim.utils.math import clamp
 
@@ -16,7 +15,7 @@ class ConfidenceTracker:
     Affects shot selection and shooting probability.
     """
 
-    player_confidence: Dict[int, float] = field(default_factory=dict)
+    player_confidence: dict[int, float] = field(default_factory=dict)
 
     def get(self, player_id: int) -> float:
         """Get a player's confidence. Default is 0.0 (neutral)."""

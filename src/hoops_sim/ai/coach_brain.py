@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass
-from typing import List, Optional
 
 
 class CoachDecision(enum.Enum):
@@ -33,8 +32,8 @@ class CoachAction:
     """An action decided by the coach AI."""
 
     decision: CoachDecision
-    substitution: Optional[SubstitutionPlan] = None
-    target_player_id: Optional[int] = None
+    substitution: SubstitutionPlan | None = None
+    target_player_id: int | None = None
     detail: str = ""
 
 

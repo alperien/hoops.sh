@@ -7,7 +7,6 @@ passing accuracy, screen quality, and help defense responsiveness.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, Optional, Tuple
 
 
 @dataclass
@@ -74,9 +73,9 @@ class RelationshipMatrix:
     (teammates, frequent opponents). Untracked pairs use neutral defaults.
     """
 
-    relationships: Dict[Tuple[int, int], Relationship] = field(default_factory=dict)
+    relationships: dict[tuple[int, int], Relationship] = field(default_factory=dict)
 
-    def _key(self, player_a: int, player_b: int) -> Tuple[int, int]:
+    def _key(self, player_a: int, player_b: int) -> tuple[int, int]:
         """Canonical key for a player pair (always sorted)."""
         return (min(player_a, player_b), max(player_a, player_b))
 
@@ -107,9 +106,9 @@ class RelationshipMatrix:
         rel.trust += delta
         rel.clamp()
 
-    def all_relationships_for(self, player_id: int) -> Dict[int, Relationship]:
+    def all_relationships_for(self, player_id: int) -> dict[int, Relationship]:
         """Get all relationships involving a specific player."""
-        result: Dict[int, Relationship] = {}
+        result: dict[int, Relationship] = {}
         for (a, b), rel in self.relationships.items():
             if a == player_id:
                 result[b] = rel

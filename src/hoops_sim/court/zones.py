@@ -1,6 +1,6 @@
-"""17 shooting zones with polygon boundaries.
+"""18 shooting zones with polygon boundaries.
 
-The court is divided into 17 zones for shot tracking and hot/cold zone analysis.
+The court is divided into 18 zones for shot tracking and hot/cold zone analysis.
 All zones are defined relative to a single basket (attacking right). When attacking
 left, positions are mirrored.
 
@@ -8,9 +8,9 @@ Zone layout (attacking right basket at x=88.75, y=25):
   - Zone 0: Restricted area (under basket)
   - Zones 1-4: Close range (inside paint, outside restricted)
   - Zones 5-9: Mid-range areas
-  - Zones 10-13: Three-point arc segments
-  - Zones 14-15: Corner threes
-  - Zone 16: Deep three / half-court+
+  - Zones 10-14: Three-point arc segments (incl. wings)
+  - Zones 15-16: Corner threes
+  - Zone 17: Deep three / half-court+
 """
 
 from __future__ import annotations
@@ -18,22 +18,16 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Dict
 
 from hoops_sim.court.model import (
-    RIGHT_BASKET,
     get_basket_position,
     is_in_restricted_area,
     is_three_point,
 )
 from hoops_sim.physics.vec import Vec2
 from hoops_sim.utils.constants import (
-    COURT_LENGTH,
     COURT_WIDTH,
-    FREE_THROW_DISTANCE,
     HALF_COURT_LENGTH,
-    RESTRICTED_AREA_RADIUS,
-    THREE_POINT_ARC_DISTANCE,
 )
 
 
@@ -60,13 +54,14 @@ class Zone(IntEnum):
     THREE_LEFT_ABOVE_BREAK = 11
     THREE_TOP_KEY = 12
     THREE_RIGHT_ABOVE_BREAK = 13
+    THREE_RIGHT_WING = 14
 
     # Corner threes
-    THREE_LEFT_CORNER = 14
-    THREE_RIGHT_CORNER = 15
+    THREE_LEFT_CORNER = 15
+    THREE_RIGHT_CORNER = 16
 
     # Deep
-    DEEP_THREE = 16
+    DEEP_THREE = 17
 
 
 @dataclass(frozen=True)
@@ -82,7 +77,7 @@ class ZoneInfo:
 
 
 # Zone metadata
-ZONE_INFO: Dict[Zone, ZoneInfo] = {
+ZONE_INFO: dict[Zone, ZoneInfo] = {
     Zone.RESTRICTED: ZoneInfo(Zone.RESTRICTED, "Restricted Area", "RA", False, True, 2.0),
     Zone.CLOSE_LEFT: ZoneInfo(Zone.CLOSE_LEFT, "Close Left", "CL", False, True, 6.0),
     Zone.CLOSE_MIDDLE: ZoneInfo(Zone.CLOSE_MIDDLE, "Close Middle", "CM", False, True, 7.0),
@@ -91,15 +86,36 @@ ZONE_INFO: Dict[Zone, ZoneInfo] = {
     Zone.MID_LEFT_WING: ZoneInfo(Zone.MID_LEFT_WING, "Mid Left Wing", "MLW", False, False, 16.0),
     Zone.MID_LEFT_ELBOW: ZoneInfo(Zone.MID_LEFT_ELBOW, "Mid Left Elbow", "MLE", False, False, 15.0),
     Zone.MID_FREE_THROW: ZoneInfo(Zone.MID_FREE_THROW, "Mid Free Throw", "MFT", False, False, 15.0),
-    Zone.MID_RIGHT_ELBOW: ZoneInfo(Zone.MID_RIGHT_ELBOW, "Mid Right Elbow", "MRE", False, False, 15.0),
-    Zone.MID_RIGHT_WING: ZoneInfo(Zone.MID_RIGHT_WING, "Mid Right Wing", "MRW", False, False, 16.0),
-    Zone.THREE_LEFT_WING: ZoneInfo(Zone.THREE_LEFT_WING, "Three Left Wing", "3LW", True, False, 24.0),
-    Zone.THREE_LEFT_ABOVE_BREAK: ZoneInfo(Zone.THREE_LEFT_ABOVE_BREAK, "Three Left Above Break", "3LA", True, False, 24.0),
-    Zone.THREE_TOP_KEY: ZoneInfo(Zone.THREE_TOP_KEY, "Three Top of Key", "3TK", True, False, 24.5),
-    Zone.THREE_RIGHT_ABOVE_BREAK: ZoneInfo(Zone.THREE_RIGHT_ABOVE_BREAK, "Three Right Above Break", "3RA", True, False, 24.0),
-    Zone.THREE_LEFT_CORNER: ZoneInfo(Zone.THREE_LEFT_CORNER, "Left Corner Three", "LC3", True, False, 22.0),
-    Zone.THREE_RIGHT_CORNER: ZoneInfo(Zone.THREE_RIGHT_CORNER, "Right Corner Three", "RC3", True, False, 22.0),
-    Zone.DEEP_THREE: ZoneInfo(Zone.DEEP_THREE, "Deep Three", "D3", True, False, 28.0),
+    Zone.MID_RIGHT_ELBOW: ZoneInfo(
+        Zone.MID_RIGHT_ELBOW, "Mid Right Elbow", "MRE", False, False, 15.0,
+    ),
+    Zone.MID_RIGHT_WING: ZoneInfo(
+        Zone.MID_RIGHT_WING, "Mid Right Wing", "MRW", False, False, 16.0,
+    ),
+    Zone.THREE_LEFT_WING: ZoneInfo(
+        Zone.THREE_LEFT_WING, "Three Left Wing", "3LW", True, False, 24.0,
+    ),
+    Zone.THREE_LEFT_ABOVE_BREAK: ZoneInfo(
+        Zone.THREE_LEFT_ABOVE_BREAK, "Three Left Above Break", "3LA", True, False, 24.0,
+    ),
+    Zone.THREE_TOP_KEY: ZoneInfo(
+        Zone.THREE_TOP_KEY, "Three Top of Key", "3TK", True, False, 24.5,
+    ),
+    Zone.THREE_RIGHT_ABOVE_BREAK: ZoneInfo(
+        Zone.THREE_RIGHT_ABOVE_BREAK, "Three Right Above Break", "3RA", True, False, 24.0,
+    ),
+    Zone.THREE_RIGHT_WING: ZoneInfo(
+        Zone.THREE_RIGHT_WING, "Three Right Wing", "3RW", True, False, 24.0,
+    ),
+    Zone.THREE_LEFT_CORNER: ZoneInfo(
+        Zone.THREE_LEFT_CORNER, "Left Corner Three", "LC3", True, False, 22.0,
+    ),
+    Zone.THREE_RIGHT_CORNER: ZoneInfo(
+        Zone.THREE_RIGHT_CORNER, "Right Corner Three", "RC3", True, False, 22.0,
+    ),
+    Zone.DEEP_THREE: ZoneInfo(
+        Zone.DEEP_THREE, "Deep Three", "D3", True, False, 28.0,
+    ),
 }
 
 
@@ -152,7 +168,7 @@ def get_zone(position: Vec2, attacking_right: bool) -> Zone:
             return Zone.THREE_TOP_KEY
         if angle > -60:
             return Zone.THREE_RIGHT_ABOVE_BREAK
-        return Zone.THREE_LEFT_WING  # Wraps around
+        return Zone.THREE_RIGHT_WING  # Wraps around (angle < -60)
 
     # Close range (inside ~10 feet, outside restricted)
     if dist <= 10.0:

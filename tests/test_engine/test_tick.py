@@ -2,11 +2,8 @@
 
 from __future__ import annotations
 
-import pytest
-
-from hoops_sim.engine.clock import GameClock
 from hoops_sim.engine.game import GamePhase, GameScore, GameState
-from hoops_sim.engine.possession import PossessionState, PossessionTracker
+from hoops_sim.engine.possession import PossessionState
 from hoops_sim.engine.tick import TickEngine, TickEventType
 from hoops_sim.models.team import Team
 

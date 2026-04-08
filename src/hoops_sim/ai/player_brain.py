@@ -7,7 +7,6 @@ and picks the highest utility option, with noise based on basketball IQ.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
 
 from hoops_sim.utils.rng import SeededRNG
 
@@ -18,14 +17,14 @@ class ActionOption:
 
     action: str  # "shoot", "drive", "pass", "post_up", "hold"
     utility: float  # Evaluated utility (higher = better)
-    target_id: Optional[int] = None  # For passes: teammate ID
+    target_id: int | None = None  # For passes: teammate ID
     quality: float = 0.0  # Quality of the opportunity (0-1)
 
 
 def evaluate_ball_handler_options(
     shot_quality: float,
     drive_quality: float,
-    pass_qualities: List[Tuple[int, float]],  # (teammate_id, quality)
+    pass_qualities: list[tuple[int, float]],  # (teammate_id, quality)
     post_quality: float,
     shot_volume_tendency: float,
     drive_tendency: float,
@@ -55,7 +54,7 @@ def evaluate_ball_handler_options(
     Returns:
         The best ActionOption.
     """
-    options: List[ActionOption] = []
+    options: list[ActionOption] = []
 
     # Shot clock urgency (increases as clock runs down)
     urgency = max(0.0, 1.0 - shot_clock_pct * 2.5)
@@ -84,7 +83,9 @@ def evaluate_ball_handler_options(
             + pass_first_tendency * 0.15
             + (1.0 - urgency) * 0.10  # More patience = more passing
         )
-        options.append(ActionOption("pass", pass_utility, target_id=teammate_id, quality=pass_quality))
+        options.append(ActionOption(
+            "pass", pass_utility, target_id=teammate_id, quality=pass_quality,
+        ))
 
     # Option: Post up
     if post_quality > 0.2:

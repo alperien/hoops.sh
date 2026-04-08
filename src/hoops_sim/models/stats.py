@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict
 
 
 @dataclass
@@ -119,7 +118,7 @@ class TeamGameStats:
 
     team_id: int = 0
     team_name: str = ""
-    player_stats: Dict[int, PlayerGameStats] = field(default_factory=dict)
+    player_stats: dict[int, PlayerGameStats] = field(default_factory=dict)
 
     # Team totals
     points: int = 0

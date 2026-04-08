@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from hoops_sim.shot.probability import ShotContext, calculate_shot_probability
 
 

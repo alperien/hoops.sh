@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import random
-from typing import Dict, List, Optional, Sequence, TypeVar
+from collections.abc import Sequence
+from typing import TypeVar
 
 T = TypeVar("T")
 
@@ -15,12 +16,12 @@ class SeededRNG:
     stream so that changes in one subsystem don't affect the sequence of another.
     """
 
-    def __init__(self, seed: Optional[int] = None) -> None:
+    def __init__(self, seed: int | None = None) -> None:
         self._seed = seed
         self._rng = random.Random(seed)
 
     @property
-    def seed(self) -> Optional[int]:
+    def seed(self) -> int | None:
         return self._seed
 
     def random(self) -> float:
@@ -43,11 +44,13 @@ class SeededRNG:
         """Return a random element from a non-empty sequence."""
         return self._rng.choice(seq)
 
-    def shuffle(self, seq: List[T]) -> None:
+    def shuffle(self, seq: list[T]) -> None:
         """Shuffle a list in place."""
         self._rng.shuffle(seq)
 
-    def choices(self, population: Sequence[T], weights: Optional[Sequence[float]] = None, k: int = 1) -> List[T]:
+    def choices(
+        self, population: Sequence[T], weights: Sequence[float] | None = None, k: int = 1,
+    ) -> list[T]:
         """Return k elements chosen from the population with optional weights."""
         return self._rng.choices(population, weights=weights, k=k)
 
@@ -64,9 +67,9 @@ class SeededRNG:
 class RNGManager:
     """Manages multiple independent RNG streams for the simulation."""
 
-    def __init__(self, master_seed: Optional[int] = None) -> None:
+    def __init__(self, master_seed: int | None = None) -> None:
         self._master = SeededRNG(seed=master_seed)
-        self._streams: Dict[str, SeededRNG] = {}
+        self._streams: dict[str, SeededRNG] = {}
 
     def get_stream(self, name: str) -> SeededRNG:
         """Get or create a named RNG stream."""

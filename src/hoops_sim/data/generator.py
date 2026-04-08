@@ -2,15 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional, Tuple
-
 from hoops_sim.models.attributes import (
     AthleticAttributes,
     DefensiveAttributes,
     FinishingAttributes,
     MentalAttributes,
-    PlaymakingAttributes,
     PlayerAttributes,
+    PlaymakingAttributes,
     ReboundingAttributes,
     ShootingAttributes,
 )
@@ -20,9 +18,8 @@ from hoops_sim.models.player import Player, Position
 from hoops_sim.models.tendencies import PlayerTendencies
 from hoops_sim.utils.rng import SeededRNG
 
-
 # Archetype templates: baseline attributes and tendencies for player types
-ARCHETYPES: Dict[str, dict] = {
+ARCHETYPES: dict[str, dict] = {
     "scoring_guard": {
         "positions": [Position.PG, Position.SG],
         "height_range": (73, 77),
@@ -145,9 +142,9 @@ LAST_NAMES = [
 
 def generate_player(
     rng: SeededRNG,
-    archetype: Optional[str] = None,
-    age: Optional[int] = None,
-    overall_target: Optional[int] = None,
+    archetype: str | None = None,
+    age: int | None = None,
+    overall_target: int | None = None,
 ) -> Player:
     """Generate a random player from an archetype template.
 
@@ -326,7 +323,7 @@ def generate_player(
     )
 
 
-def generate_roster(rng: SeededRNG, size: int = 15) -> List[Player]:
+def generate_roster(rng: SeededRNG, size: int = 15) -> list[Player]:
     """Generate a full roster with balanced positions.
 
     Args:

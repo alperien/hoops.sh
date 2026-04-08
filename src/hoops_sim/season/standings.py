@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
 
 
 @dataclass
@@ -40,10 +39,7 @@ class TeamRecord:
             return 0.0
         return self.wins / self.games_played
 
-    @property
-    def games_back(self) -> float:
-        """Set externally by the standings calculator."""
-        return 0.0
+    games_back: float = 0.0  # Set externally by the standings calculator
 
     @property
     def point_diff(self) -> int:
@@ -61,7 +57,10 @@ class TeamRecord:
             return 0.0
         return self.points_against / self.games_played
 
-    def record_win(self, is_home: bool, is_conference: bool, is_division: bool, pts_for: int, pts_against: int) -> None:
+    def record_win(
+        self, is_home: bool, is_conference: bool, is_division: bool,
+        pts_for: int, pts_against: int,
+    ) -> None:
         self.wins += 1
         self.points_for += pts_for
         self.points_against += pts_against
@@ -75,7 +74,10 @@ class TeamRecord:
             self.division_wins += 1
         self.streak = self.streak + 1 if self.streak > 0 else 1
 
-    def record_loss(self, is_home: bool, is_conference: bool, is_division: bool, pts_for: int, pts_against: int) -> None:
+    def record_loss(
+        self, is_home: bool, is_conference: bool, is_division: bool,
+        pts_for: int, pts_against: int,
+    ) -> None:
         self.losses += 1
         self.points_for += pts_for
         self.points_against += pts_against
@@ -98,7 +100,7 @@ class TeamRecord:
 class Standings:
     """League standings tracker."""
 
-    records: Dict[int, TeamRecord] = field(default_factory=dict)
+    records: dict[int, TeamRecord] = field(default_factory=dict)
 
     def add_team(self, team_id: int, name: str, conference: str, division: str) -> None:
         self.records[team_id] = TeamRecord(
@@ -109,15 +111,15 @@ class Standings:
     def get_record(self, team_id: int) -> TeamRecord:
         return self.records.get(team_id, TeamRecord())
 
-    def conference_standings(self, conference: str) -> List[TeamRecord]:
+    def conference_standings(self, conference: str) -> list[TeamRecord]:
         """Get sorted standings for a conference."""
         conf_records = [r for r in self.records.values() if r.conference == conference]
         return sorted(conf_records, key=lambda r: (-r.win_pct, -r.point_diff))
 
-    def league_standings(self) -> List[TeamRecord]:
+    def league_standings(self) -> list[TeamRecord]:
         """Get all teams sorted by win percentage."""
         return sorted(self.records.values(), key=lambda r: (-r.win_pct, -r.point_diff))
 
-    def playoff_teams(self, conference: str, count: int = 8) -> List[TeamRecord]:
+    def playoff_teams(self, conference: str, count: int = 8) -> list[TeamRecord]:
         """Get the top teams for playoff seeding."""
         return self.conference_standings(conference)[:count]

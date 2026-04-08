@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from hoops_sim.actions.passing import PassType, resolve_pass
 from hoops_sim.utils.rng import SeededRNG
 

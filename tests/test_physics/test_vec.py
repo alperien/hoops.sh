@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import math
-
 import pytest
 
 from hoops_sim.physics.vec import Vec2, Vec3, distance_2d

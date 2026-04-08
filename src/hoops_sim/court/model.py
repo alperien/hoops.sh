@@ -24,7 +24,6 @@ from hoops_sim.utils.constants import (
     THREE_POINT_CORNER_DISTANCE,
 )
 
-
 # Basket positions for each side of the court
 LEFT_BASKET = Vec2(BASKET_X, BASKET_Y)
 RIGHT_BASKET = Vec2(COURT_LENGTH - BASKET_X, BASKET_Y)

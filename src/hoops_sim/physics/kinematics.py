@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass
-from typing import Dict
 
 from hoops_sim.physics.vec import Vec2
 from hoops_sim.utils.constants import (
@@ -35,7 +34,7 @@ class MovementType(enum.Enum):
 
 
 # Speed fractions for each movement type (relative to max sprint speed)
-_MOVEMENT_SPEED_FRACTION: Dict[MovementType, float] = {
+_MOVEMENT_SPEED_FRACTION: dict[MovementType, float] = {
     MovementType.STAND: 0.0,
     MovementType.WALK: 0.25,
     MovementType.JOG: 0.55,
@@ -45,7 +44,7 @@ _MOVEMENT_SPEED_FRACTION: Dict[MovementType, float] = {
 }
 
 # Energy drain per tick for each movement type
-_MOVEMENT_ENERGY_DRAIN: Dict[MovementType, float] = {
+_MOVEMENT_ENERGY_DRAIN: dict[MovementType, float] = {
     MovementType.STAND: ENERGY_DRAIN_STAND,
     MovementType.WALK: ENERGY_DRAIN_WALK,
     MovementType.JOG: ENERGY_DRAIN_JOG,
@@ -171,7 +170,10 @@ class PlayerKinematics:
 
         # Should we slow down as we approach the target?
         # Calculate stopping distance: v^2 / (2 * deceleration)
-        stopping_distance = (new_speed * new_speed) / (2.0 * self.deceleration) if self.deceleration > 0 else 0
+        if self.deceleration > 0:
+            stopping_distance = (new_speed * new_speed) / (2.0 * self.deceleration)
+        else:
+            stopping_distance = 0
         if distance < stopping_distance:
             # Start decelerating
             new_speed = max(0.0, new_speed - self.deceleration * dt)

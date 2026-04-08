@@ -3,8 +3,7 @@
 from __future__ import annotations
 
 import enum
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from dataclasses import dataclass
 
 from hoops_sim.utils.rng import SeededRNG
 
@@ -80,7 +79,7 @@ TIMEOUT_TEMPLATES = [
 ]
 
 QUARTER_END_TEMPLATES = [
-    "And that's the end of the {quarter}. Score: {home_team} {home_score}, {away_team} {away_score}.",
+    "End of the {quarter}. Score: {home_team} {home_score}, {away_team} {away_score}.",
     "Buzzer sounds to end the {quarter}!",
 ]
 
@@ -130,7 +129,7 @@ class NarrationEngine:
         shooter: str,
         distance: float,
         zone: str,
-        rebounder: Optional[str] = None,
+        rebounder: str | None = None,
     ) -> NarrationEvent:
         self.play_count += 1
         template = self.rng.choice(SHOT_MISSED_TEMPLATES)
@@ -143,8 +142,8 @@ class NarrationEngine:
     def narrate_turnover(
         self,
         player: str,
-        passer: Optional[str] = None,
-        stealer: Optional[str] = None,
+        passer: str | None = None,
+        stealer: str | None = None,
         team: str = "",
     ) -> NarrationEvent:
         self.play_count += 1

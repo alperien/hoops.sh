@@ -15,7 +15,10 @@ class TestTeamRecord:
 
     def test_record_win(self):
         r = TeamRecord()
-        r.record_win(is_home=True, is_conference=True, is_division=True, pts_for=110, pts_against=100)
+        r.record_win(
+            is_home=True, is_conference=True, is_division=True,
+            pts_for=110, pts_against=100,
+        )
         assert r.wins == 1
         assert r.home_wins == 1
         assert r.conference_wins == 1
@@ -23,7 +26,10 @@ class TestTeamRecord:
 
     def test_record_loss(self):
         r = TeamRecord()
-        r.record_loss(is_home=False, is_conference=True, is_division=False, pts_for=95, pts_against=105)
+        r.record_loss(
+            is_home=False, is_conference=True, is_division=False,
+            pts_for=95, pts_against=105,
+        )
         assert r.losses == 1
         assert r.away_losses == 1
 
@@ -67,7 +73,7 @@ class TestStandings:
         s.get_record(1).losses = 62
         s.get_record(2).wins = 60
         s.get_record(2).losses = 22
-        
+
         standings = s.conference_standings("West")
         assert standings[0].team_name == "Good Team"
 
@@ -77,7 +83,7 @@ class TestStandings:
             s.add_team(i, f"Team {i}", "East", "Atlantic")
             s.get_record(i).wins = 82 - i * 5
             s.get_record(i).losses = i * 5
-        
+
         playoff = s.playoff_teams("East", count=8)
         assert len(playoff) == 8
         assert playoff[0].wins > playoff[7].wins

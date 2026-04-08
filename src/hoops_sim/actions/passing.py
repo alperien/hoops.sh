@@ -5,7 +5,6 @@ from __future__ import annotations
 import enum
 from dataclasses import dataclass
 
-from hoops_sim.physics.vec import Vec2
 from hoops_sim.utils.rng import SeededRNG
 
 

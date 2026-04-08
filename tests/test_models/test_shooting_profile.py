@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from hoops_sim.court.zones import Zone
 from hoops_sim.models.shooting_profile import ShootingProfile, ZoneRating
 
@@ -71,6 +69,6 @@ class TestShootingProfile:
     def test_zone_count_by_rating(self):
         profile = ShootingProfile()
         counts = profile.zone_count_by_rating()
-        assert counts[ZoneRating.NEUTRAL] == 17
+        assert counts[ZoneRating.NEUTRAL] == 18
         assert counts[ZoneRating.HOT] == 0
         assert counts[ZoneRating.COLD] == 0

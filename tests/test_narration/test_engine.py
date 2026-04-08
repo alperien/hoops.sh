@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from hoops_sim.narration.engine import NarrationEngine, NarrationIntensity
 from hoops_sim.utils.rng import SeededRNG
 

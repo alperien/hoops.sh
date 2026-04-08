@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
 
 from hoops_sim.models.team import Team
-
 
 # NBA Division/Conference structure
 CONFERENCES = {
@@ -38,7 +36,7 @@ class SalaryCapInfo:
     minimum_salary: int = 1_100_000
     mid_level_exception: int = 12_800_000
     bi_annual_exception: int = 4_500_000
-    rookie_scale_year1: List[int] = field(
+    rookie_scale_year1: list[int] = field(
         default_factory=lambda: [
             12_000_000, 10_800_000, 9_700_000, 8_600_000, 7_500_000,
             6_500_000, 5_600_000, 4_800_000, 4_100_000, 3_500_000,
@@ -87,28 +85,28 @@ class League:
 
     name: str = "NBA"
     season_year: int = 2025
-    teams: List[Team] = field(default_factory=list)
+    teams: list[Team] = field(default_factory=list)
     salary_cap: SalaryCapInfo = field(default_factory=SalaryCapInfo)
 
-    def get_team(self, team_id: int) -> Optional[Team]:
+    def get_team(self, team_id: int) -> Team | None:
         """Find a team by ID."""
         for t in self.teams:
             if t.id == team_id:
                 return t
         return None
 
-    def get_team_by_abbr(self, abbr: str) -> Optional[Team]:
+    def get_team_by_abbr(self, abbr: str) -> Team | None:
         """Find a team by abbreviation."""
         for t in self.teams:
             if t.abbreviation == abbr:
                 return t
         return None
 
-    def conference_teams(self, conference: str) -> List[Team]:
+    def conference_teams(self, conference: str) -> list[Team]:
         """Get all teams in a conference."""
         return [t for t in self.teams if t.conference == conference]
 
-    def division_teams(self, division: str) -> List[Team]:
+    def division_teams(self, division: str) -> list[Team]:
         """Get all teams in a division."""
         return [t for t in self.teams if t.division == division]
 

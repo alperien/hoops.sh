@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from hoops_sim.actions.dribble import (
     DRIBBLE_MOVES,
     DribbleMoveType,

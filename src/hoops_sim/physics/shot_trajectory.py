@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-from hoops_sim.physics.vec import Vec2, Vec3, distance_2d
+from hoops_sim.physics.vec import Vec2, Vec3
 from hoops_sim.utils.constants import (
     BASKET_HEIGHT,
     BASKET_X,
@@ -14,15 +14,11 @@ from hoops_sim.utils.constants import (
     MAX_BACKSPIN_RPM,
     MIN_BACKSPIN_RPM,
     OPTIMAL_RELEASE_ANGLE_AT_RIM,
-    OPTIMAL_RELEASE_ANGLE_MID,
     OPTIMAL_RELEASE_ANGLE_THREE,
     SHOT_ANGLE_VARIANCE_SCALE,
     SHOT_SPEED_VARIANCE_SCALE,
 )
-from typing import Optional
-
 from hoops_sim.utils.rng import SeededRNG
-
 
 BASKET_POSITION = Vec2(BASKET_X, BASKET_Y)
 
@@ -49,7 +45,8 @@ def optimal_release_angle(distance_to_basket: float) -> float:
         return OPTIMAL_RELEASE_ANGLE_THREE
     # Linear interpolation between rim and three-point
     t = (distance_to_basket - 4.0) / (23.0 - 4.0)
-    return OPTIMAL_RELEASE_ANGLE_AT_RIM + t * (OPTIMAL_RELEASE_ANGLE_THREE - OPTIMAL_RELEASE_ANGLE_AT_RIM)
+    angle_range = OPTIMAL_RELEASE_ANGLE_THREE - OPTIMAL_RELEASE_ANGLE_AT_RIM
+    return OPTIMAL_RELEASE_ANGLE_AT_RIM + t * angle_range
 
 
 def required_launch_speed(
@@ -101,7 +98,7 @@ def calculate_shot_trajectory(
     zone_rating: int,
     shot_release_quality: float,
     rng: SeededRNG,
-    basket_position: Optional[Vec2] = None,
+    basket_position: Vec2 | None = None,
 ) -> ShotTrajectory:
     """Calculate the full trajectory for a shot attempt.
 

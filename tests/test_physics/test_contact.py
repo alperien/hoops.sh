@@ -6,7 +6,6 @@ import pytest
 
 from hoops_sim.physics.contact import (
     ContactSeverity,
-    ContactType,
     classify_severity,
     detect_contact,
 )

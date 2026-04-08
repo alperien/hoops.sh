@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass
-from typing import Dict, Optional
 
 from hoops_sim.utils.rng import SeededRNG
 
@@ -34,7 +33,7 @@ class DribbleMoveSpec:
     defender_freeze_time: float  # Seconds defender is frozen on success
 
 
-DRIBBLE_MOVES: Dict[DribbleMoveType, DribbleMoveSpec] = {
+DRIBBLE_MOVES: dict[DribbleMoveType, DribbleMoveSpec] = {
     DribbleMoveType.CROSSOVER: DribbleMoveSpec(
         speed_boost=1.15, space_created=2.0, turnover_risk=0.02,
         time_cost=0.4, energy_cost=0.03, ankle_breaker_threshold=92,
@@ -139,5 +138,7 @@ def resolve_dribble_move(
     else:
         # Move failed
         if rng.random() < spec.turnover_risk * (1 + defender_steal / 100.0):
-            return DribbleMoveResult(success=False, turnover=True, energy_cost=spec.energy_cost * 0.5)
+            return DribbleMoveResult(
+                success=False, turnover=True, energy_cost=spec.energy_cost * 0.5,
+            )
         return DribbleMoveResult(success=False, energy_cost=spec.energy_cost * 0.5)

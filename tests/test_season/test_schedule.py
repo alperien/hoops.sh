@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import pytest
-
-from hoops_sim.season.schedule import ScheduledGame, SeasonSchedule, generate_schedule
+from hoops_sim.season.schedule import ScheduledGame, generate_schedule
 from hoops_sim.utils.rng import SeededRNG
 
 
@@ -37,7 +35,7 @@ class TestGenerateSchedule:
         schedule = generate_schedule([1, 2, 3, 4], games_per_team=10, rng=SeededRNG(42))
         total = schedule.games_remaining(1)
         assert total > 0
-        
+
         # Play a game
         game = schedule.next_unplayed(1)
         assert game is not None

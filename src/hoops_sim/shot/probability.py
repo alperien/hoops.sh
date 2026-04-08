@@ -110,7 +110,8 @@ def calculate_shot_probability(ctx: ShotContext) -> float:
     # Factor 12: Volume shooter badge
     volume_bonus = 1.0
     if ctx.volume_shooter_tier > 0 and ctx.shot_attempts_this_game > 8:
-        volume_bonus = 1.0 + ctx.volume_shooter_tier * 0.005 * min(5, ctx.shot_attempts_this_game - 8)
+        excess = min(5, ctx.shot_attempts_this_game - 8)
+        volume_bonus = 1.0 + ctx.volume_shooter_tier * 0.005 * excess
 
     # Combine all factors multiplicatively
     probability = (
